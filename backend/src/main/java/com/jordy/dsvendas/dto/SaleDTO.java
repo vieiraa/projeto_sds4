@@ -1,33 +1,23 @@
-package com.jordy.dsvendas.entities;
+package com.jordy.dsvendas.dto;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import com.jordy.dsvendas.entities.Sale;
 
-@Entity
-@Table(name = "tb_sales")
-public class Sale {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+public class SaleDTO implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private Long id;
 	private Integer visited;
 	private Integer deals;
 	private Double amount;
 	private LocalDate date;
+	private SellerDTO seller;
 	
-	@ManyToOne
-	@JoinColumn(name = "seller_id")
-	private Seller seller;
+	public SaleDTO() {}
 	
-	public Sale() {}
-	
-	public Sale(Long id, Integer visited, Integer deals, Double amount, LocalDate date, Seller seller) {
+	public SaleDTO(Long id, Integer visited, Integer deals, Double amount, LocalDate date, SellerDTO seller) {
 		this.id = id;
 		this.visited = visited;
 		this.deals = deals;
@@ -36,50 +26,59 @@ public class Sale {
 		this.seller = seller;
 	}
 	
-	public Seller getSeller() {
+	public SaleDTO(Sale sale) {
+		this.id = sale.getId();
+		this.visited = sale.getVisited();
+		this.deals = sale.getDeals();
+		this.amount = sale.getAmount();
+		this.date = sale.getDate();
+		this.seller = new SellerDTO(sale.getSeller());
+	}
+
+	public SellerDTO getSeller() {
 		return seller;
 	}
 
-	public void setSeller(Seller seller) {
+	public void setSeller(SellerDTO seller) {
 		this.seller = seller;
 	}
 
 	public Long getId() {
 		return id;
 	}
-	
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public Integer getVisited() {
 		return visited;
 	}
-	
+
 	public void setVisited(Integer visited) {
 		this.visited = visited;
 	}
-	
+
 	public Integer getDeals() {
 		return deals;
 	}
-	
+
 	public void setDeals(Integer deals) {
 		this.deals = deals;
 	}
-	
+
 	public Double getAmount() {
 		return amount;
 	}
-	
+
 	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
-	
+
 	public LocalDate getDate() {
 		return date;
 	}
-	
+
 	public void setDate(LocalDate date) {
 		this.date = date;
 	}
